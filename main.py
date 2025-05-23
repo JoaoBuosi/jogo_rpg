@@ -1,80 +1,111 @@
 import flet as ft
-from src.auth import login_screen, register_screen
+import time
+import os
+
 from src.personagens import character_customization_screen
-
-
-
-def initial_page(page: ft.Page):
-    def go_to_login(e):
-        page.session.set("next_route", "/login")
-        page.go("/loading")
-
-    def go_to_register(e):
-        page.session.set("next_route", "/register")
-        page.go("/loading")
-
-    def go_to_game(e):
-        page.session.set("next_route", "/character_customization")  # ou "/game"
-        page.go("/loading")
-
-    return ft.View(
-        "/",
-        controls=[
-            ft.Column([
-                ft.Image(src="assets/Initial_page.png", expand=True, fit=ft.ImageFit.CONTAIN),
-                ft.ElevatedButton("Login", on_click=go_to_login),
-                ft.ElevatedButton("Cadastrar", on_click=go_to_register),
-                ft.ElevatedButton("Iniciar Jogo", on_click=go_to_game),
-            ], horizontal_alignment=ft.CrossAxisAlignment.CENTER, expand=True)
-        ],
-        vertical_alignment=ft.MainAxisAlignment.CENTER,
-        horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-    )
-
-
-def loading_screen(page: ft.Page):
-    async def go_next():
-        await page.update_async()
-        await page.sleep(2)
-        next_route = page.session.get("next_route")
-        if next_route:
-            page.go(next_route)
-
-    page.on_load = lambda _: go_next()
-
-    return ft.View(
-        "/loading",
-        controls=[
-            ft.Column([
-                ft.Image(src="assets/loading_screen.png", width=400)
-            ], horizontal_alignment=ft.CrossAxisAlignment.CENTER, expand=True)
-        ],
-        vertical_alignment=ft.MainAxisAlignment.CENTER,
-        horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-    )
 
 
 def main(page: ft.Page):
     page.title = "Meu Jogo"
-    page.session.set("next_route", None)
+    page.window_width = 580
+    page.window_height = 860
+    page.window_resizable = False
+    page.bgcolor = "black"
+    page.padding = 0
+    page.spacing = 0
 
-    def route_change(route):
-        page.views.clear()
+    largura = 566
+    altura = 838
 
-        routes = {
-            "/": initial_page,
-            "/login": login_screen,
-            "/register": register_screen,
-            "/character_customization": character_customization_screen,
-            "/loading": loading_screen,
-        }
+    def ir_para(tela):
+        if tela == "login":
+            mostrar_tela("login_screen.png")
+            page.dialog = ft.AlertDialog(
+                title=ft.Text("Login feito!"),
+                on_dismiss=lambda _: ir_para_loading("character")
+            )
+            page.dialog.open = True
 
-        view_function = routes.get(page.route, initial_page)
-        page.views.append(view_function(page))
+        elif tela == "register":
+            mostrar_tela("register_screen.png")
+            page.dialog = ft.AlertDialog(
+                title=ft.Text("Cadastro feito!"),
+                on_dismiss=lambda _: ir_para_loading("character")
+            )
+            page.dialog.open = True
+
+        elif tela == "game":
+            ir_para_loading("jogo")
+
         page.update()
 
-    page.on_route_change = route_change
-    page.go("/")
+    def ir_para_loading(destino):
+        mostrar_tela("loading_screen.png")
+        page.update()
+        time.sleep(2)
 
+        if destino == "character":
+            page.views.clear()
+            page.views.append(character_customization_screen(page))
+        else:
+            mostrar_tela("game.png")
 
-ft.app(target=main, assets_dir="assets")
+        page.update()
+
+    def mostrar_tela(nome_arquivo):
+        page.views.clear()
+
+        caminho = f"assets/{nome_arquivo}"
+        if not os.path.exists(caminho):
+            print(f"❌ Arquivo não encontrado: {caminho}")
+            return
+
+        elementos = [
+            ft.Image(
+                src=caminho,
+                width=largura,
+                height=altura,
+                fit=ft.ImageFit.FILL
+            )
+        ]
+
+        if nome_arquivo == "initial_page.png":
+            elementos += [
+                ft.Container(
+                    width=200, height=50,
+                    top=580, left=180,
+                    bgcolor="transparent",
+                    on_click=lambda _: ir_para("login")
+                ),
+                ft.Container(
+                    width=200, height=50,
+                    top=640, left=180,
+                    bgcolor="transparent",
+                    on_click=lambda _: ir_para("register")
+                ),
+                ft.Container(
+                    width=200, height=50,
+                    top=700, left=180,
+                    bgcolor="transparent",
+                    on_click=lambda _: ir_para("game")
+                ),
+            ]
+
+        page.views.append(
+            ft.View(
+                route="/",
+                controls=[
+                    ft.Stack(
+                        controls=elementos,
+                        width=largura,
+                        height=altura
+                    )
+                ]
+            )
+        )
+        page.update()
+
+    mostrar_tela("initial_page.png")
+
+ft.app(target=main)
+
