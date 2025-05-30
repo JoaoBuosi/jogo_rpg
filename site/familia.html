@@ -1,0 +1,88 @@
+<!-- familia.html -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Família Desbloqueada</title>
+  <style>
+    body {
+      background: black;
+      color: white;
+      font-family: monospace;
+      text-align: center;
+      padding-top: 50px;
+      animation: piscar 0.5s infinite;
+    }
+
+    h1 {
+      font-size: 42px;
+      color: orange;
+    }
+
+    @keyframes piscar {
+      0% { opacity: 1; }
+      50% { opacity: 0.5; }
+      100% { opacity: 1; }
+    }
+
+    img {
+      width: 200px;
+      margin: 20px;
+      cursor: pointer;
+    }
+
+    h2 {
+      font-size: 24px;
+      color: orange;
+    }
+  </style>
+    <audio id="musicaFundo" autoplay loop>
+    <source src="/assets/audio/dupla_musica.mp3" autoplay loop></audio>
+</head>
+<body>
+  <h1>FAMÍLIA!!!</h1>
+  <p>Você desbloqueou dois novos personagens:</p>
+  <h2>João & Fernando</h2>
+  <img id="joao" src="/assets/img/joao.png" alt="Joao" />
+  <img id="fernando" src="/assets/img/fernando.png " alt= "Fernando" />
+  <p>Clique no Joao e Fernando ou aguarde 5 segundos...</p>
+  
+
+  <script>
+  window.addEventListener('load', () => {
+    const audio = document.getElementById('musicaFundo');
+    const playPromise = audio.play();
+
+    if (playPromise !== undefined) {
+      playPromise.then(() => {
+        // Áudio tocando
+        console.log('Áudio iniciado automaticamente');
+      }).catch(error => {
+        // Autoplay falhou, aguardar clique do usuário
+        console.log('Autoplay falhou, esperando clique para ativar áudio');
+        document.addEventListener('click', () => {
+          audio.play();
+        }, { once: true });
+      });
+    }
+  });
+</script>
+  <script>
+    // Salva os personagens desbloqueados
+    function desbloquearPersonagens() {
+      localStorage.setItem('joaoDesbloqueado', 'true');
+      localStorage.setItem('fernandoDesbloqueado', 'true');
+      localStorage.setItem('arthurDesbloqueado', 'true');
+      window.location.href = "escolha_personagem.html";
+    }
+
+    // Redireciona após 5 segundos
+    setTimeout(desbloquearPersonagens, 5000);
+
+    // Clique nas imagens também desbloqueia
+    document.getElementById("joao").addEventListener("click", desbloquearPersonagens);
+    document.getElementById("fernando").addEventListener("click", desbloquearPersonagens);
+    document.getElementById("arthur").addEventListener("click", desbloquearPersonagens);
+  </script>
+</body>
+</html>

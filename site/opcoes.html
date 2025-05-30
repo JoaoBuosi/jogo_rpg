@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <title data-texto="opcoes">Opções</title>
+  <style>
+    body {
+      background-color: #000;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      gap: 20px;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin: 10px 0 5px;
+    }
+    select, input[type="range"] {
+      width: 200px;
+      padding: 5px;
+      border-radius: 8px;
+      border: none;
+    }
+button {
+  width: 200px;
+  padding: 12px 0;
+  background: linear-gradient(135deg, #1a1a1a, #333);
+  color: #fff;
+  border: 2px solid #555;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+}
+
+button:hover {
+  background: linear-gradient(135deg, #e0e0e0, #fefefe);
+  color: #111;
+  border-color: #999;
+  transform: scale(1.05);
+  box-shadow: 0 0 12px #fff;
+}
+
+button:active {
+  transform: scale(0.97);
+  box-shadow: 0 0 8px #aaa;
+}
+  </style>
+</head>
+<body>
+  <h1 data-texto="opcoes">Opções</h1>
+
+  <label for="volume" data-texto="volume">Volume</label>
+  <input type="range" id="volume" min="0" max="100" value="50" />
+
+  <label for="dificuldade" data-texto="dificuldade">Dificuldade</label>
+  <select id="dificuldade">
+    <option value="facil" data-texto="facil">Fácil</option>
+    <option value="medio" data-texto="medio" selected>Médio</option>
+    <option value="dificil" data-texto="dificil">Difícil</option>
+  </select>
+
+  <label for="idioma" data-texto="idioma">Idioma</label>
+  <select id="idioma">
+    <option value="pt" data-texto="portugues">Português</option>
+    <option value="en" data-texto="ingles">Inglês</option>
+    <option value="es" data-texto="espanhol">Espanhol</option>
+  </select>
+
+  <button id="btnSalvar" onclick="salvarOpcoes()" data-texto="salvar">Salvar</button>
+  <button id="btnVoltar" onclick="voltarMenu()" data-texto="voltar">Voltar</button>
+
+  <script src="lang.js"></script>
+  <script>
+    function salvarOpcoes() {
+      const idioma = document.getElementById('idioma').value;
+      localStorage.setItem('idioma', idioma);
+
+      const volume = document.getElementById('volume').value;
+      localStorage.setItem('volume', volume);
+
+      const dificuldade = document.getElementById('dificuldade').value;
+      localStorage.setItem('dificuldade', dificuldade);
+
+      alert(textos[idioma].opcoesSalvas || 'Opções salvas!');
+      aplicarIdioma(); // atualiza os textos ao salvar
+    }
+
+    function voltarMenu() {
+      window.location.href = 'meu_jogo.html';
+    }
+
+    aplicarIdioma();
+  </script>
+  <script src="/js/eastereggs.js"></script>
+
+</body>
+</html>

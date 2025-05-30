@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <title>História Inicial</title>
+  <style>
+    body {
+      background-color: #000;
+      color: orange ; /* verde estilo terminal */
+      font-family: 'Courier New', Courier, monospace;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+    #historia {
+      font-size: 1.5em;
+      max-width: 600px;
+      white-space: pre-wrap;
+      border-right: 2px solid orange;
+      padding-right: 5px;
+      /* efeito cursor piscante */
+      animation: blink-caret 0.75s step-end infinite;
+    }
+    @keyframes blink-caret {
+      from, to { border-color: transparent; }
+      50% { border-color: orange; }
+    }
+  </style>
+</head>
+<body>
+  <p id="historia"></p>
+
+  <audio id="som-digitacao" src="/assets/audio/typing-sound.mp3" preload="auto"></audio>
+
+  <script>
+    const texto = `"Nas profundezas do abismo, uma antiga linhagem desperta..."`;
+    const elemento = document.getElementById('historia');
+    const somDigitacao = document.getElementById('som-digitacao');
+
+    let indice = 0;
+
+    function digitar() {
+      if (indice < texto.length) {
+        elemento.textContent += texto.charAt(indice);
+        // Toca o som de digitação em loop curto
+        somDigitacao.currentTime = 0;
+        somDigitacao.play();
+        indice++;
+      } else {
+        clearInterval(intervalo);
+      }
+    }
+
+    const intervalo = setInterval(digitar, 100); // digita uma letra a cada 100ms
+
+    setTimeout(() => {
+  window.location.href = 'loading.html';
+}, 10000); // por exemplo, 10 segundos depois
+
+window.onload = () => {
+  // Começa a digitação
+  const intervalo = setInterval(digitar, 100);
+
+  // Aplica idioma pros elementos (aqui coloque o array certo de ids que existem nessa página)
+  aplicarIdioma(["historia", "iniciarJogo", "login", "cadastro", "sair", "novoJogo", "continuar", "opcoes", "perfil", "creditos", "voltar"]);
+}
+
+  </script>
+    <script src="lang.js"></script>
+    
+  </script>
+  <script src="js/eastereggs.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Até logo</title>
+  <style>
+  body {
+      margin: 0;
+      background-color: #000;
+      color: #fff;
+      font-family: 'Georgia', serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-image: url('/site/assets/background.jpg'); /* opcional */
+      background-size: cover;
+      background-position: center;
+      text-align: center;
+    }
+
+    .mensagem {
+      background: rgba(0, 0, 0, 0.7);
+      padding: 40px;
+      border-radius: 10px;
+      border: 1px solid #555;
+      box-shadow: 0 0 20px #888;
+    }
+
+    .mensagem h1 {
+      font-size: 32px;
+      margin-bottom: 20px;
+    }
+
+    .mensagem p {
+      font-size: 18px;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <div class="mensagem">
+    <h1>Até a próxima, guerreiro...</h1>
+    <p>A escuridão te espera novamente.</p>
+  </div>
+
+  <script>
+  setTimeout(() => {
+  document.querySelector('.mensagem').innerHTML += "<p>Obrigado por jogar! Você pode fechar essa aba agora.</p>";
+}, 3000);
+  </script>
+    <script src="lang.js"></script>
+  <script>
+    window.onload = () => {
+    aplicarIdioma(["historia","iniciarJogo",'login','cadastro','sair', 'novoJogo', 'continuar', 'opcoes', 'perfil', 'creditos', 'voltar']);
+  }
+  </script>
+</script>
+<img id="tchau" src="/assets/img/tchau.gif"
+     style="position: fixed; bottom: 30px; left: 30px; width: 120px; display: none; z-index: 999; mix-blend-mode: screen;">
+     
+<script>
+  let tempoInatividade;
+  const tempoLimite = 3000; // 3 segundos
+  const pato = document.getElementById("tchau");
+  
+
+  function resetarInatividade() {
+    clearTimeout(tempoInatividade);
+    pato.style.display = "none"; // esconde o gif
+    tempoInatividade = setTimeout(() => {
+      pato.style.display = "block";
+    }, tempoLimite);
+    
+  }
+
+  // Eventos que resetam o tempo
+  ['mousemove', 'keydown', 'click', 'touchstart'].forEach(evento => {
+    document.addEventListener(evento, resetarInatividade);
+  });
+
+  // Inicia a contagem quando a página carrega
+  window.addEventListener("load", resetarInatividade);
+</script>
+
+
+  <script src="/js/eastereggs.js"></script>
+
+</body>
+
+</html>

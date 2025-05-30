@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Easter Eggs Descobertos</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #111;
+      color: #fff;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .egg {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+      cursor: pointer;
+    }
+button {
+  width: 200px;
+  padding: 12px 0;
+  background: linear-gradient(135deg, #1a1a1a, #333);
+  color: #fff;
+  border: 2px solid #555;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+}
+
+button:hover {
+  background: linear-gradient(135deg, #e0e0e0, #fefefe);
+  color: #111;
+  border-color: #999;
+  transform: scale(1.05);
+  box-shadow: 0 0 12px #fff;
+}
+
+button:active {
+  transform: scale(0.97);
+  box-shadow: 0 0 8px #aaa;
+}
+    .status {
+      width: 30px;
+      text-align: center;
+      font-size: 24px;
+      margin-right: 10px;
+    }
+    .egg.locked {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .details {
+      margin-left: 40px;
+      margin-top: 10px;
+      background-color: #222;
+      padding: 10px;
+      border-left: 4px solid #0f0;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>Easter Eggs Descobertos</h1>
+
+  <div id="egg-list"></div>
+  <div id="egg-list"></div>
+    </div>
+
+    <button onclick="voltarMenu()">Voltar</button>
+    
+  </div>
+<audio id="musicaFundo" src="/assets/audio/musica_easter_eggs.mp3" autoplay loop></audio>
+  <script>
+  
+    function voltarMenu() {
+      window.location.href = 'meu_jogo.html';
+    }
+    const easterEggs = [
+      { nome: "Pato dançando", encontrado: true, dica: "Fique parado por 20 segundos sem fazer nada" },
+      { nome: "Easter eggs", encontrado: true, dica: "Digite eggs no menu do jogo" },
+      { nome: "Anjo", encontrado: true, dica: "clique 5 vezes na frase menu do jogo" },
+      { nome: "Terror", encontrado: true, dica: "clique no botao invisivel que fica no canto inferior direito no menu do jogo" },
+      { nome: "Dio", encontrado: true, dica: "Digite za warudo no menu do jogo" },
+      { nome: "Primos", encontrado: true, dica: "digite primos na tela inicial" },
+    ];
+
+    const container = document.getElementById("egg-list");
+
+    easterEggs.forEach((egg, i) => {
+      const eggEl = document.createElement("div");
+      eggEl.classList.add("egg");
+      if (!egg.encontrado) eggEl.classList.add("locked");
+
+      const statusEl = document.createElement("div");
+      statusEl.className = "status";
+      statusEl.textContent = egg.encontrado ? "✅" : "⬛";
+
+      const nameEl = document.createElement("div");
+      nameEl.textContent = egg.nome;
+
+      eggEl.appendChild(statusEl);
+      eggEl.appendChild(nameEl);
+
+      container.appendChild(eggEl);
+
+      const detailsEl = document.createElement("div");
+      detailsEl.className = "details";
+      detailsEl.innerHTML = `<strong>Como desbloquear:</strong><br>${egg.dica}`;
+      container.appendChild(detailsEl);
+
+      if (egg.encontrado) {
+        eggEl.addEventListener("click", () => {
+          detailsEl.style.display = detailsEl.style.display === "none" ? "block" : "none";
+        });
+      }
+    });
+  </script>
+</body>
+</html>

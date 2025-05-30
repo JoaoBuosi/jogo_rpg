@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <title>Menu do Jogo</title>
+  <style>
+
+    body {
+      margin: 0;
+      background-image: url('/assets/img/menu_bg.png');
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-color: #000000;
+      color: #fff;
+      font-family: 'Georgia', serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 10vh;
+    }
+    body {
+      background-color: #000;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      gap: 20px;
+    }
+button {
+  width: 200px;
+  padding: 12px 0;
+  background: linear-gradient(135deg, #1a1a1a, #333);
+  color: #fff;
+  border: 2px solid #555;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+}
+
+button:hover {
+  background: linear-gradient(135deg, #e0e0e0, #fefefe);
+  color: #111;
+  border-color: #999;
+  transform: scale(1.05);
+  box-shadow: 0 0 12px #fff;
+}
+
+button:active {
+  transform: scale(0.97);
+  box-shadow: 0 0 8px #aaa;
+}
+  </style>
+  <audio id="musicaFundo" src="/assets/audio/musica.mp3" autoplay loop></audio>
+</head>
+<body>
+  <h1 id="titulo">Menu do Jogo</h1>
+  <button id="novoJogo" onclick="window.location.href='escolha_personagem.html'">Novo Jogo</button>
+  <button id="continuar" onclick="window.location.href='carregar_jogo.html'">Continuar</button>
+  <button id="opcoes" onclick="window.location.href='opcoes.html'">Opções</button>
+  <button id="creditos" onclick="window.location.href='creditos.html'">Créditos</button>
+  <button id="voltar" onclick="window.location.href='index.html'">Voltar</button>
+
+  <script>
+    const textos = {
+      pt: {
+        titulo: "Menu do Jogo",
+        novoJogo: "Novo Jogo",
+        continuar: "Continuar",
+        opcoes: "Opções",
+        perfil: "Perfil",
+        creditos: "Créditos",
+        voltar: "Voltar"
+      },
+      en: {
+        titulo: "Game Menu",
+        novoJogo: "New Game",
+        continuar: "Continue",
+        opcoes: "Options",
+        perfil: "Profile",
+        creditos: "Credits",
+        voltar: "Back"
+      },
+      es: {
+        titulo: "Menú del Juego",
+        novoJogo: "Nuevo Juego",
+        continuar: "Continuar",
+        opcoes: "Opciones",
+        perfil: "Perfil",
+        creditos: "Créditos",
+        voltar: "Volver"
+      }
+
+    };
+
+    function aplicarIdioma() {
+      const idioma = localStorage.getItem('idioma') || 'pt';
+      const t = textos[idioma];
+
+      document.getElementById('titulo').textContent = t.titulo;
+      document.getElementById('novoJogo').textContent = t.novoJogo;
+      document.getElementById('continuar').textContent = t.continuar;
+      document.getElementById('opcoes').textContent = t.opcoes;
+      document.getElementById('perfil').textContent = t.perfil;
+      document.getElementById('creditos').textContent = t.creditos;
+      document.getElementById('voltar').textContent = t.voltar;
+    }
+
+    window.onload = aplicarIdioma;
+  </script>
+  <!-- Elementos escondidos para o easter egg -->
+<img id="anjoEaster" src="/assets/img/anjo.png"
+     style="position: absolute; right: 100px; top: 100px; display: none; width: 100px; z-index: 30;">
+
+<script>
+ let cliqueContador = 0;
+
+const titulo = document.getElementById("titulo");
+const anjo = document.getElementById("anjoEaster");
+
+titulo.addEventListener("click", () => {
+  cliqueContador++;
+
+  if (cliqueContador === 5) {
+    anjo.style.display = "block";
+
+    // Depois de 3 segundos, o anjo desaparece
+    setTimeout(() => {
+      anjo.style.display = "none";
+      cliqueContador = 0; // reinicia contador
+    }, 3000); // 3000ms = 3 segundos
+  }
+});
+
+</script>
+<!-- Elemento secreto -->
+<div id="easterBlood"
+     style="position: absolute; bottom: 30px; right: 30px; width: 50px; height: 50px; opacity: 0; cursor: pointer; z-index: 100;">
+</div>
+
+<!-- Imagem do sangue -->
+<img id="bloodEffect" src="/assets/img/blood_border.gif"
+     style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: none; z-index: 99;">
+<script>
+  const sangue = document.getElementById("bloodEffect");
+  const easterBlood = document.getElementById("easterBlood");
+
+  easterBlood.addEventListener("click", () => {
+    sangue.style.display = "block";
+
+    // Aguarda 1.5 segundos e redireciona para mensagem_oculta.html
+    setTimeout(() => {
+      window.location.href = "mensagem_oculta.html";
+    }, 1500);
+  });
+</script>
+<img id="patoDancando" src="/assets/img/pato.gif"
+     style="position: fixed; bottom: 30px; left: 30px; width: 120px; display: none; z-index: 999; mix-blend-mode: screen;">
+<script>
+  let tempoInatividade;
+  const tempoLimite = 20000; // 20 segundos
+  const pato = document.getElementById("patoDancando");
+  
+
+  function resetarInatividade() {
+    clearTimeout(tempoInatividade);
+    pato.style.display = "none"; // esconde o pato
+    tempoInatividade = setTimeout(() => {
+      pato.style.display = "block";
+    }, tempoLimite);
+  }
+
+  // Eventos que resetam o tempo
+  ['mousemove', 'keydown', 'click', 'touchstart'].forEach(evento => {
+    document.addEventListener(evento, resetarInatividade);
+  });
+
+  // Inicia a contagem quando a página carrega
+  window.addEventListener("load", resetarInatividade);
+</script>
+<!-- Botão oculto do DIO -->
+<div id="botaoDio" 
+     onclick="window.location.href='dio.html'"
+     style="position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px; opacity: 0; cursor: pointer; background: url('/assets/img/dio_icon.png') no-repeat center/contain; z-index: 9999; display: none;">
+</div>
+
+<script>
+  const codigoDio = ['z', 'a', 'w', 'a', 'r', 'u', 'd', 'o'];
+  let entradaDio = [];
+  const botaoDio = document.getElementById("botaoDio");
+
+  document.addEventListener('keydown', function(event) {
+    entradaDio.push(event.key.toLowerCase());
+
+    if (entradaDio.length > codigoDio.length) {
+      entradaDio.shift();
+    }
+
+    if (JSON.stringify(entradaDio) === JSON.stringify(codigoDio)) {
+      // Mostra o botão do DIO por 5 segundos
+      botaoDio.style.display = "block";
+      botaoDio.style.opacity = "1";
+
+      setTimeout(() => {
+        botaoDio.style.opacity = "0";
+        botaoDio.style.display = "none";
+        entradaDio = [];
+      }, 5000);
+    }
+  });
+</script>
+<!-- Botão oculto do DIO -->
+<div id="botaoeggs" 
+     onclick="window.location.href='eastereggs.html'"
+     style="position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px; opacity: 0; cursor: pointer; background: url('/assets/img/easter_egg.gif') no-repeat center/contain; z-index: 9999; display: none;">
+</div>
+
+<script>
+  const codigoEasteregs = ['e', 'g', 'g', 's'];
+  let entradaEastereggs = [];
+  const botaoeggs = document.getElementById("botaoeggs");
+
+  document.addEventListener('keydown', function(event) {
+    entradaEastereggs.push(event.key.toLowerCase());
+
+    if (entradaEastereggs.length > codigoEasteregs.length) {
+      entradaEastereggs.shift();
+    }
+
+    if (JSON.stringify(entradaEastereggs) === JSON.stringify(codigoEasteregs)) {
+      // Mostra o botão do DIO por 5 segundos
+      botaoeggs.style.display = "block";
+      botaoeggs.style.opacity = "1";
+
+      setTimeout(() => {
+        botaoeggs.style.opacity = "0";
+        botaoeggs.style.display = "none";
+        entradaEastereggs = [];
+      }, 5000);
+    }
+  });
+</script>
+
+
+<script src="/js/detectareastereggs.js"></script>
+</body>
+</html>

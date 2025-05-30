@@ -1,0 +1,37 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: black;
+  color: white;
+  font-family: 'Courier New', monospace;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.mensagem-container {
+  border: 5px solid white;
+  padding: 30px;
+  text-align: center;
+  font-size: 24px;
+  max-width: 600px;
+  border-radius: 10px;
+  transition: all 1s ease-in-out;
+  position: relative;
+}
+
+/* Sangue escorrendo (visível apenas às 3:33) */
+.bloody {
+  border-image: url('/assets/blood_border.gif') 30 stretch;
+  border-image-slice: 30;
+  color: red;
+  animation: tremer 0.5s infinite;
+  background-color: #1a0000;
+}
+
+@keyframes tremer {
+  0% { transform: translate(1px, 0); }
+  50% { transform: translate(-1px, 1px); }
+  100% { transform: translate(0, -1px); }
+}

@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>INHERITANCE OF THE ABYSS</title>
+  <style>
+
+    #inactivity-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  pointer-events: none;
+  flex-direction: column;
+}
+
+    body {
+      margin: 0;
+      background-image: url('/assets/img/background.png');
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-color: #000000;
+      color: #fff;
+      font-family: 'Georgia', serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 110vh;
+    }
+    .tela {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+    .tela-ativa {
+      display: flex;
+    }
+button {
+  width: 200px;
+  padding: 12px 0;
+  background: linear-gradient(135deg, #1a1a1a, #333);
+  color: #fff;
+  border: 2px solid #555;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+}
+
+button:hover {
+  background: linear-gradient(135deg, #e0e0e0, #fefefe);
+  color: #111;
+  border-color: #999;
+  transform: scale(1.05);
+  box-shadow: 0 0 12px #fff;
+}
+
+button:active {
+  transform: scale(0.97);
+  box-shadow: 0 0 8px #aaa;
+}
+  </style>
+</head>
+<style>
+  #emoji-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0; /* Fica atrás de tudo */
+    pointer-events: none; /* Emojis não afetam os cliques */
+    overflow: hidden;
+  }
+
+  .emoji {
+    position: absolute;
+    font-size: 2.5rem;
+    opacity: 0.1;
+    animation: flutuar 10s linear infinite;
+    color: white;
+    user-select: none;
+  }
+
+  @keyframes flutuar {
+    0% {
+      transform: translateY(100vh) rotate(0deg);
+      opacity: 0.1;
+    }
+    100% {
+      transform: translateY(-10vh) rotate(360deg);
+      opacity: 0;
+    }
+  }
+</style>
+
+<body>
+  <audio id="musicaFundo" src="/assets/audio/musica.mp3" autoplay loop></audio>
+
+<script>
+  window.addEventListener('load', () => {
+    const audio = document.getElementById('musicaFundo');
+    const playPromise = audio.play();
+
+    if (playPromise !== undefined) {
+      playPromise.then(() => {
+        // Áudio tocando
+        console.log('Áudio iniciado automaticamente');
+      }).catch(error => {
+        // Autoplay falhou, aguardar clique do usuário
+        console.log('Autoplay falhou, esperando clique para ativar áudio');
+        document.addEventListener('click', () => {
+          audio.play();
+        }, { once: true });
+      });
+    }
+  });
+</script>
+
+  <!-- Tela Inicial -->
+  <div id="tela-inicial" class="tela tela-ativa">
+    <h1>INHERITANCE OF THE ABYSS</h1>
+    <button id="btnIniciarJogo" onclick="iniciarJogo()" style="display: none;">Iniciar Jogo</button>
+    <button onclick="mostrarTela('tela-login')">Login</button>
+    <button onclick="mostrarTela('tela-cadastro')">Cadastrar</button>
+    <button onclick="sairDoJogo()">Sair</button>
+  </div>
+
+  <!-- Outras telas -->
+
+<!-- Tela de Login -->
+<div id="tela-login" class="tela">
+  <h2>Login</h2>
+  <input type="text" id="nomeJogador" placeholder="Nome de usuário">
+  <input type="password" id="senhaJogador" placeholder="Senha">
+  <button onclick="fazerLogin()">Entrar</button>
+  <button onclick="mostrarTela('tela-inicial')">Voltar</button>
+</div>
+
+
+<script>
+  // Simulação de "banco de dados" com usuário e senha
+  const usuarios = [
+    { nome: "JoaoBuosi", senha: "Joao240500" },
+    { nome: "Admin", senha: "Admin" }
+  ];
+
+ 
+  function fazerLogin() {
+    const nome = document.getElementById("nomeJogador").value.trim();
+    const senha = document.getElementById("senhaJogador").value.trim();
+
+    const usuarios = JSON.parse(localStorage.getItem("usuarios") || "[]");
+
+    const usuarioEncontrado = usuarios.find(u => u.nome === nome && u.senha === senha);
+
+    if (usuarioEncontrado) {
+      localStorage.setItem("nomeJogador", nome);
+      mostrarTela('tela-inicial');
+      document.getElementById('btnIniciarJogo').style.display = 'inline-block';
+    } else {
+      alert("Nome ou senha incorretos!");
+    }
+  }
+</script>
+
+
+</script>
+
+<div id="tela-cadastro" class="tela">
+  <h2>Criar Conta</h2>
+
+  <label for="cadastro-usuario">Nome de Usuário</label>
+  <input type="text" id="cadastro-usuario" placeholder="Digite seu nome">
+
+  <label for="cadastro-senha">Senha</label>
+  <input type="password" id="cadastro-senha" placeholder="Digite sua senha">
+
+  <p id="mensagem-feedback" style="color: red; height: 20px;"></p>
+
+  <button onclick="cadastrarUsuario()">Cadastrar</button>
+  <button onclick="mostrarTela('tela-inicial')">Voltar</button>
+</div>
+
+
+<script>
+  function cadastrarUsuario() {
+    const usuario = document.getElementById("cadastro-usuario").value.trim();
+    const senha = document.getElementById("cadastro-senha").value;
+    const feedback = document.getElementById("mensagem-feedback");
+
+    if (usuario.length < 3) {
+      feedback.textContent = "O nome de usuário deve ter pelo menos 5 caracteres.";
+      feedback.style.color = "red";
+      return;
+    }
+
+    if (!/[A-Z]/.test(senha)) {
+      feedback.textContent = "A senha deve conter pelo menos uma letra maiúscula.";
+      feedback.style.color = "red";
+      return;
+    }
+
+    // Recupera os usuários do localStorage
+    const usuarios = JSON.parse(localStorage.getItem("usuarios") || "[]");
+
+    // Verifica se o usuário já existe
+    if (usuarios.some(u => u.nome === usuario)) {
+      feedback.textContent = "Nome de usuário já existe.";
+      feedback.style.color = "red";
+      return;
+    }
+
+    // Adiciona o novo usuário
+    usuarios.push({ nome: usuario, senha: senha });
+    localStorage.setItem("usuarios", JSON.stringify(usuarios));
+
+    feedback.textContent = "Cadastrado com sucesso!";
+    feedback.style.color = "green";
+
+    // Limpa os campos
+    document.getElementById("cadastro-usuario").value = "";
+    document.getElementById("cadastro-senha").value = "";
+
+    setTimeout(() => {
+      feedback.textContent = "";
+      window.location.href = "index.html";
+    }, 2000);
+  }
+
+
+
+  function mostrarTela(telaId) {
+    document.querySelectorAll('.tela').forEach(tela => {
+      tela.style.display = 'none';
+    });
+    document.getElementById(telaId).style.display = 'block';
+  }
+
+
+</script>
+  <!-- Tela de Carregamento -->
+<div id="tela-carregamento" class="tela">
+  <img src="/assets/img/loading.png" alt="Carregando..." />
+</div>
+
+
+  <script>
+    function mostrarTela(id) {
+      const telas = document.querySelectorAll('.tela');
+      telas.forEach(t => t.classList.remove('tela-ativa'));
+      document.getElementById(id).classList.add('tela-ativa');
+    }
+
+   function iniciarJogo() {
+  window.location.href = 'meu_jogo.html';
+  
+}
+
+   
+    function sairDoJogo() {
+  window.location.href = "adeus.html";
+}
+
+    function EasterEggs() {
+      window.location.href = "eastereggs.html";
+    }
+    
+  </script>
+      <script src="lang.js"></script>
+  <script>
+        window.onload = () => {
+    aplicarIdioma(["historia","iniciarJogo",'login','cadastro','sair', 'novoJogo', 'continuar', 'opcoes', 'perfil', 'creditos', 'voltar']);
+  }
+  </script>
+  <!-- Áreas ocultas para o anjo e explosão -->
+<img id="anjoEaster" src="/assets/img/anjo.png"
+     style="position: absolute; right: 100px; top: 100px; display: none; width: 100px; z-index: 30;">
+
+
+<img id="patoDancando" src="/assets/img/pato.gif"
+     style="position: fixed; bottom: 30px; left: 30px; width: 120px; display: none; z-index: 999; mix-blend-mode: screen;">
+     
+
+
+<!-- No final do body -->
+<script src="/js/easterEggs.js"></script>
+
+<script>
+  let tempoInatividade;
+  const tempoLimite = 20000; // 20 segundos
+  const pato = document.getElementById("patoDancando");
+  
+
+  function resetarInatividade() {
+    clearTimeout(tempoInatividade);
+    pato.style.display = "none"; // esconde o pato
+    tempoInatividade = setTimeout(() => {
+      pato.style.display = "block";
+    }, tempoLimite);
+  }
+
+  // Eventos que resetam o tempo
+  ['mousemove', 'keydown', 'click', 'touchstart'].forEach(evento => {
+    document.addEventListener(evento, resetarInatividade);
+  });
+
+  // Inicia a contagem quando a página carrega
+  window.addEventListener("load", resetarInatividade);
+</script>
+<!-- Botão secreto dos primos -->
+<div id="botaoPrimos"
+     onclick="window.location.href='familia.html'"
+     style="position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px; opacity: 0; cursor: pointer; background: url('/assets/img/primos_icon.png') no-repeat center/contain; z-index: 9999; display: none;">
+</div>
+
+<script>
+  const codigoPrimos = ['p', 'r', 'i', 'm', 'o', 's'];
+  let entradaPrimos = [];
+  const botaoPrimos = document.getElementById("botaoPrimos");
+
+  document.addEventListener('keydown', function(event) {
+    entradaPrimos.push(event.key.toLowerCase());
+
+    if (entradaPrimos.length > codigoPrimos.length) {
+      entradaPrimos.shift();
+    }
+
+    if (JSON.stringify(entradaPrimos) === JSON.stringify(codigoPrimos)) {
+      botaoPrimos.style.display = "block";
+      botaoPrimos.style.opacity = "1";
+
+      setTimeout(() => {
+        botaoPrimos.style.opacity = "0";
+        botaoPrimos.style.display = "none";
+        entradaPrimos = [];
+      }, 5000);
+    }
+  });
+</script>
+<script src="/site/js/detectar_eastereggs.js"></script>
+
+
+
+</body>
+</html>

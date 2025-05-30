@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <title>Continuar Jogo</title>
+  <style>
+    body {
+      background-color: #111;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 32px;
+      margin-bottom: 30px;
+    }
+
+    .slot {
+      background-color: #333;
+      border-radius: 12px;
+      padding: 20px;
+      margin: 10px 0;
+      width: 300px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .slot:hover {
+      background-color: #555;
+    }
+
+button {
+  width: 200px;
+  padding: 12px 0;
+  background: linear-gradient(135deg, #1a1a1a, #333);
+  color: #fff;
+  border: 2px solid #555;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+}
+
+button:hover {
+  background: linear-gradient(135deg, #e0e0e0, #fefefe);
+  color: #111;
+  border-color: #999;
+  transform: scale(1.05);
+  box-shadow: 0 0 12px #fff;
+}
+
+button:active {
+  transform: scale(0.97);
+  box-shadow: 0 0 8px #aaa;
+}
+  </style>
+</head>
+<body>
+  <h1>Escolha um Slot de Salvamento</h1>
+
+  <div class="slot" onclick="carregarJogo('slot1')">Slot 1 - Vazio</div>
+  <div class="slot" onclick="carregarJogo('slot2')">Slot 2 - Vazio</div>
+  <div class="slot" onclick="carregarJogo('slot3')">Slot 3 - Vazio</div>
+
+  <button onclick="voltarMenu()">Voltar</button>
+
+  <script>
+    function carregarJogo(slot) {
+      alert("Carregando " + slot + "..."); 
+      window.location.href = "/site/jogo/index.html"; // redireciona para o jogo (você pode adaptar depois)
+    }
+
+    function voltarMenu() {
+      window.location.href = "meu_jogo.html";
+    }
+  </script>
+    <script src="lang.js"></script>
+  <script>
+        window.onload = () => {
+    aplicarIdioma(["historia","iniciarJogo",'login','cadastro','sair', 'novoJogo', 'continuar', 'opcoes', 'perfil', 'creditos', 'voltar']);
+  }
+  </script>
+  <script src="/js/eastereggs.js"></script>
+
+</body>
+</html>

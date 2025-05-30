@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <title>Carregando...</title>
+  <style>
+    body {
+      background-color: #000;
+      color: #fff;
+      font-family: 'Georgia', serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      gap: 20px;
+      text-align: center;
+    }
+    img {
+      width: 1300px;
+      animation: girar 2s linear infinite;
+    }
+    .dica {
+      font-size: 18px;
+      font-style: italic;
+      max-width: 400px;
+      margin: 0 20px;
+    }
+  </style>
+</head>
+<body>
+  <img src="/assets/img/loading.png" alt="Carregando..." />
+  <div class="dica" id="dica"></div>
+
+  <script>
+    const dicas = [
+      "Dica: Itens lendários só aparecem à meia-noite!",
+      "Dica: Explore cada canto do mapa para encontrar segredos.",
+      "Dica: Use magias com sabedoria para economizar mana.",
+      "Dica: Fique atento aos padrões de ataque dos inimigos.",
+      "Dica: Equipamentos melhores aumentam suas chances de vitória."
+    ];
+
+    let indice = 0;
+    const dicaElemento = document.getElementById('dica');
+
+    function trocarDica() {
+      dicaElemento.textContent = dicas[indice];
+      indice = (indice + 1) % dicas.length;
+    }
+
+    trocarDica();
+    setInterval(trocarDica, 4000); // muda dica a cada 4 segundos
+    
+  </script>
+    <script src="lang.js"></script>
+  <script>
+        window.onload = () => {
+    aplicarIdioma(["historia","iniciarJogo",'login','cadastro','sair', 'novoJogo', 'continuar', 'opcoes', 'perfil', 'creditos', 'voltar']);
+  }
+  setTimeout(() => {
+  window.location.href = '/site/jogo/index.html';
+}, 5000); // por exemplo, 10 segundos depois
+  </script>
+ 
+  <script src="js/eastereggs.js"></script>
+
+</body>
+</html>

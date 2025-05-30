@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <title>Você despertou o Dio!</title>
+  <style>
+    body {
+      background-color: black;
+      color: white;
+      font-family: "Arial", sans-serif;
+      text-align: center;
+      padding-top: 100px;
+    }
+
+    #dioIcon {
+      width: 200px;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    #dioIcon:hover {
+      transform: scale(1.1);
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-top: 30px;
+    }
+  </style>
+  <audio id="musicaFundo" autoplay loop>
+    <source src="/assets/audio/za_warudo.mp3" autoplay loop></audio>
+  </script>
+</head>
+<body>
+  <img id="dioIcon" src="/assets/img/shadow_dio.gif" alt="dio" />
+  <h1>Você desbloqueou o Dio!</h1>
+  <p>Clique no Dio ou aguarde 5 segundos...</p>
+  <script> 
+
+  </script>
+
+<script>
+  window.addEventListener('load', () => {
+    const audio = document.getElementById('musicaFundo');
+    const playPromise = audio.play();
+
+    if (playPromise !== undefined) {
+      playPromise.then(() => {
+        // Áudio tocando
+        console.log('Áudio iniciado automaticamente');
+      }).catch(error => {
+        // Autoplay falhou, aguardar clique do usuário
+        console.log('Autoplay falhou, esperando clique para ativar áudio');
+        document.addEventListener('click', () => {
+          audio.play();
+        }, { once: true });
+      });
+    }
+  });
+
+    // Salva que o Dio foi desbloqueado
+    function desbloquearDio() {
+      localStorage.setItem('shadow_dio_Desbloqueado', 'true');
+      window.location.href = "escolha_personagem.html";
+    }
+
+    // Redireciona após 5 segundos
+    setTimeout(desbloquearDio, 4000);
+
+    // Ou se clicar na imagem
+    document.getElementById("dioIcon").addEventListener("click", desbloquearDio);
+  </script>
+</body>
+</html>

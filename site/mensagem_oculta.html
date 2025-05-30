@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Mensagem Oculta</title>
+   <style>
+    
+    .botao-voltar {
+  background: transparent;
+  color: red;
+  border: 2px solid red;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-family: "Courier New", monospace;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button {
+  width: 200px;
+  padding: 12px 0;
+  background: linear-gradient(135deg, #1a1a1a, #333);
+  color: #fff;
+  border: 2px solid #555;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+}
+
+button:hover {
+  background: linear-gradient(135deg, red, red);
+  color: #111;
+  border-color: #fd0202af;
+  transform: scale(1.05);
+  box-shadow: 0 0 12px #000000;
+}
+
+button:active {
+  transform: scale(0.97);
+  box-shadow: 0 0 8px #aaa;
+}
+    body {
+      margin: 0;
+      padding: 0;
+      background: radial-gradient(ellipse at center, #000 0%, #111 100%);
+      color: red;
+      font-family: "Courier New", monospace;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    h1 {
+      font-size: 3rem;
+      animation: pulsar 1s infinite alternate;
+      text-shadow: 0 0 10px red, 0 0 20px red;
+    }
+    @keyframes pulsar {
+      from { opacity: 1; }
+      to { opacity: 0.4; }
+    }
+    #mensagemContainer {
+      display: none;
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
+      text-align: center;
+    }
+        .mensagem {
+      background: rgba(0, 0, 0, 0.7);
+      padding: 40px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 0, 0, 0.651);
+      box-shadow: 0 0 20px red; 
+    }
+
+    .mensagem h1 {
+      font-size: 32px;
+      margin-bottom: 20px;
+    }
+
+    .mensagem p {
+      font-size: 18px;
+      opacity: 0.8;
+    }
+  </style>
+    <audio id="musicaFundo" autoplay loop>
+    <source src="/assets/audio/musica_de_terror.mp3" type="audio/mp4" />
+    Seu navegador não suporta áudio.
+  </audio>
+  <style>
+
+  
+  .gota-sangue {
+    position: absolute;
+    top: -60px;
+    width: 12px;
+    height: 20px;
+    background: linear-gradient(to bottom, #8b0000, red, #4b0000);
+    border-radius: 60% 40% 80% 20%;
+    opacity: 0.85;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.4);
+    animation: escorrer-realista 4s ease-in forwards, pulsar 0.5s infinite;
+  }
+
+  @keyframes escorrer-realista {
+    0% {
+      top: -60px;
+      opacity: 0;
+      transform: rotate(0deg);
+    }
+    50% {
+      opacity: 1;
+      transform: rotate(5deg);
+    }
+    100% {
+      top: 100vh;
+      opacity: 0.3;
+      transform: rotate(-5deg);
+    }
+  }
+
+  @keyframes pulsar {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+  }
+</style>
+
+<script>
+  function criarGotasDeSangueRealistas(qtd) {
+    for (let i = 0; i < qtd; i++) {
+      const gota = document.createElement("div");
+      gota.classList.add("gota-sangue");
+      gota.style.left = Math.random() * window.innerWidth + "px";
+      gota.style.animationDuration = 3 + Math.random() * 2 + "s";
+      gota.style.width = 8 + Math.random() * 10 + "px";
+      gota.style.height = 15 + Math.random() * 20 + "px";
+      document.body.appendChild(gota);
+
+      setTimeout(() => {
+        gota.remove();
+      }, 7000);
+    }
+  }
+
+  // Só ativa às 3:33
+  const agora = new Date();
+  if (agora.getHours() === 3 && agora.getMinutes() === 33) {
+    setInterval(() => criarGotasDeSangueRealistas(6), 1200); // gotas a cada 1.2s
+  }
+</script>
+
+</script>
+</head>
+
+<body>
+  <div class="mensagem" id="mensagemContainer">
+    <h1>Mensagem Oculta</h1>
+    <p>Segredo encontrado!</p>
+    <p>Você desbloqueou uma mensagem oculta!</p>
+    <p>Espere ate as 3:33 da manhã para descobrir o segredo!💀</p>
+    <button class="botao-voltar" onclick="voltarMenu()">Voltar ao Menu</button>
+    
+  </div>
+</div>
+ 
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const mensagemContainer = document.getElementById('mensagemContainer');
+      const mensagem = document.getElementById('mensagem');
+
+      mensagemContainer.style.display = 'block';
+      setTimeout(() => {
+        mensagemContainer.style.opacity = '1';
+      }, 100);
+
+      // Verifica hora atual
+      const agora = new Date();
+      const hora = agora.getHours();
+      const minuto = agora.getMinutes();
+
+      // Se for 3:33 da manhã
+      if (hora === 3 && minuto === 33) {
+        mensagem.classList.add('sangrento');
+      }
+    });
+  </script>
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const mensagemContainer = document.getElementById('mensagemContainer');
+    mensagemContainer.style.display = 'block';
+    setTimeout(() => {
+      mensagemContainer.style.opacity = '1';
+    }, 100);
+
+    // Verifica a hora atual
+    const agora = new Date();
+    const hora = agora.getHours();
+    const minuto = agora.getMinutes();
+
+    // Se for 3:33, altera a mensagem
+    if (hora === 3 && minuto === 33) {
+      mensagemContainer.innerHTML = `
+        <div class="mensagem">
+          <h1>Parabéns</h1>
+          <p>Você descobriu o segredo!</p>
+        </div>
+      `;
+    }
+  });
+</script>
+
+
+    <script>
+
+  function voltarMenu() {
+    window.location.href = "meu_jogo.html";
+  }
+</script>
+
+  </script>
+</body>
+</html>
